@@ -1,75 +1,149 @@
-# React + TypeScript + Vite
+# 🔒 Enigma Lock
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un jeu de logique basé sur le principe d'un cadenas numérique.
 
-Currently, two official plugins are available:
+Le joueur doit trouver le code secret grâce à une série d'indices logiques.  
+Le moteur du jeu est indépendant de l'interface et pourra fonctionner sur plusieurs plateformes :
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 🌐 Web (React)
+- 📱 Mobile (React Native / Expo) (features)
+- 💻 CLI (Node.js)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Fonctionnalités actuelles
 
-## Expanding the ESLint configuration
+- Génération de codes secrets
+- Système d'indices
+- Validation des solutions
+- Gestion des parties
+- Gestion des tentatives
+- Mode CLI jouable
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚧 À venir
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Interface React
+- Application mobile Expo
+- Système de difficulté intelligent (`DifficultyEngine`)
+- Score et statistiques
+- Animations de cadenas
+- Sauvegarde des parties
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 📋 Prérequis
 
+Avant de commencer, installer :
+
+### Node.js
+
+Version recommandée :
+Node >= 20
+
+Vérifier :
+
+```bash
+node -v
+```
+---
+
+##  📥 Installation
+
+Cloner le projet :
+
+```bash
+git clone <repository-url>
+
+cd Enigma
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Installer les dépendances :
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+#### pnpm :
+```bash
+pnpm install
 ```
+
+#### npm :
+```bash
+npm install
+```
+
+---
+
+## 🚀 Lancement du projet
+Vous pouver jouer le jeux sur terminal (CLI) ou avec l'interface en React
+
+### Lancement dans le CLI
+La version terminal permet de tester le moteur du jeu.
+
+#### Lancer:
+pour  **pnpm**:
+```bash
+pnpm cli
+```
+
+pour **npm**:
+```bash
+npm run cli
+```
+### Exemple :
+``` bash
+🔒 ENIGMA LOCK
+
+
+Choisir une difficulté
+
+1 - Facile
+2 - Normal
+3 - Difficile
+
+
+🔎 Indices :
+
+Code : 682
+
+Bien placé : 0
+
+Mal placé : 1
+
+
+Votre code :
+>
+```
+---
+### Pour l'application Web 
+Lance react
+#### pnpm 
+```bash
+pnpm dev
+```
+
+#### npm 
+```bash
+npm run dev
+```
+
+Puis ovrir : 
+```bash
+http://localhost:5173
+```
+
+---
+
+## 🛠️ Technologies utilisées
+### Core
+- TypeScript
+- Vitest
+### Web
+- React
+- Vite
+- TypeScript
+
+### CLI
+- Node.js
+- tsx
+
+---
+
+*Projet personnel de développement autour de la création d'un moteur de jeu logique multiplateforme.*

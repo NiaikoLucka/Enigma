@@ -47,17 +47,12 @@ export class GameCLI {
       console.log(`
 
 Indice ${index + 1}
-
 Code :
 ${clue.guess}
-
 ✔ Bien placé :
 ${clue.correctPlace}
-
 ↔ Mal placé :
 ${clue.correctWrongPlace}
-
-
 `);
     });
 
