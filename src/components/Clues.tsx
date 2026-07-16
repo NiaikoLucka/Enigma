@@ -1,58 +1,43 @@
-import { Lightbulb } from "lucide-react";
+import type { Clue } from "@/core";
 
+interface Props {
+  clues: Clue[];
+}
 /**
  * Affiche la liste des indices, et l'historique des essais précédents
  * avec leur retour couleur (bien placé / mal placé / absent).
  */
-const CELL_STYLES = {
-  correct: "bg-emerald-200 text-emerald-900",
-  misplaced: "bg-amber-200 text-amber-900",
-  absent: "bg-stone-200 text-stone-500",
-};
 
-export default function Clues({
-  clues,
-  history,
-}: {
-  clues: string[];
-  history: Array<{ guess: string; result: (keyof typeof CELL_STYLES)[] }>;
-}) {
+export default function Clues({ clues }: Props) {
   return (
     <div>
       <h3 className="text-lg font-bold mb-3 text-stone-700">🔎 Indices</h3>
       <div className="flex flex-col gap-2 mb-5">
-        {clues.map((clue, i) => (
+        {clues.map((clue, index) => (
           <div
-            key={i}
-            className="flex items-start gap-2 bg-amber-50 border border-amber-100 rounded-xl px-3 py-2.5 text-sm text-stone-700"
+            key={index}
+            className="flex items-center justify-between gap-2 bg-amber-50 border border-amber-100 rounded-xl px-8 py-2.5  text-stone-700 w-80"
           >
-            <Lightbulb size={16} className="mt-0.5 shrink-0 text-amber-500" />
-            <span>{clue}</span>
+            <div className="flex items-center justify-center">
+              <span className="text-2xl font-bold">
+                {clue.guess || "0000"}{" "}
+              </span>
+            </div>
+            <div className="flex-row items-center justify-cente p">
+              <p className="mb-1 ">
+                <span className="font-semibold">{clue.correctPlace || 0}</span>{" "}
+                Correct et Bien place 
+              </p>
+              <p>
+                <span className="font-semibold">
+                  {clue.correctWrongPlace || 0}
+                </span>{" "}
+                Correct mais mal place
+              </p>
+            </div>
           </div>
         ))}
       </div>
-
-      {history.length > 0 && (
-        <>
-          <h3 className="text-sm font-semibold mb-2 text-stone-500">
-            Essais précédents
-          </h3>
-          <div className="flex flex-col gap-1.5">
-            {history.map((h, i) => (
-              <div key={i} className="flex gap-1.5">
-                {h.guess.split("").map((d, j) => (
-                  <span
-                    key={j}
-                    className={`w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold ${CELL_STYLES[h.result[j]]}`}
-                  >
-                    {d}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </>
-      )}
     </div>
   );
 }

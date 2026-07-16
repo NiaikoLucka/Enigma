@@ -1,135 +1,241 @@
-import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+
+import type { GameConfig } from "@/core";
+
 import AnimatedLock from "./Animatedlock";
 import Clues from "./Clues";
-import {
-  DEFAULT_CODE,
-  DEFAULT_CLUES,
-  evaluateGuess,
-  isWinningGuess,
-} from "./Gamecore";
+
+import { useLockGame } from "../hooks/useLockGame";
 
 interface LockdownEnigmeProps {
-  code?: string;
-  clues?: string[];
+  config: GameConfig;
 }
 
-type GuessResult = ReturnType<typeof evaluateGuess>;
+export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
+  const { state, startGame, submitGuess } = useLockGame();
 
-type LockStatus = "idle" | "shake" | "open";
-
-export default function LockdownEnigme({
-  code = DEFAULT_CODE,
-  clues = DEFAULT_CLUES,
-}: LockdownEnigmeProps) {
-  const [digits, setDigits] = useState<string[]>(Array(code.length).fill(""));
-  const [history, setHistory] = useState<
-    Array<{ guess: string; result: GuessResult }>
-  >([]);
-  const [lockStatus, setLockStatus] = useState<LockStatus>("idle"); // "idle" | "shake" | "open"
-  const [message, setMessage] = useState<string>(
-    "Entre ton code pour ouvrir le cadenas.",
+  const [digits, setDigits] = useState<string[]>(() =>
+    Array(config.digits).fill(""),
   );
+
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
-  useEffect(() => {
-    if (lockStatus === "shake") {
-      const t = setTimeout(() => setLockStatus("idle"), 500);
-      return () => clearTimeout(t);
-    }
-  }, [lockStatus]);
+  /*
+    Initialisation du jeu
+  */
 
-  const handleChange = (index: number, value: string) => {
+  useEffect(() => {
+    startGame(config);
+  }, []);
+
+  function handleChange(index: number, value: string) {
     const clean = value.replace(/[^0-9]/g, "").slice(-1);
+
     const next = [...digits];
+
     next[index] = clean;
+
     setDigits(next);
-    if (clean && index < code.length - 1) {
+
+    if (clean && index < digits.length - 1) {
       inputsRef.current[index + 1]?.focus();
     }
-  };
+  }
 
-  const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
+  function handleKeyDown(index: number, e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Backspace" && !digits[index] && index > 0) {
       inputsRef.current[index - 1]?.focus();
     }
-  };
+  }
 
-  const handleCheck = () => {
-    const guess = digits.join("");
-    if (guess.length < code.length) {
-      setMessage("Complète les quatre chiffres.");
+  function handleSubmit() {
+    const answer = digits.join("");
+
+    if (answer.length !== config.digits) {
       return;
     }
 
-    const result = evaluateGuess(guess, code);
-    setHistory((prev) => [{ guess, result }, ...prev]);
+    submitGuess(answer);
 
-    if (isWinningGuess(guess, code)) {
-      setLockStatus("open");
-      setMessage("Cadenas ouvert, bravo !");
-    } else {
-      setLockStatus("shake");
-      setMessage("Presque ! Regarde les couleurs et retente.");
-      setDigits(Array(code.length).fill(""));
-      setTimeout(() => inputsRef.current[0]?.focus(), 500);
-    }
-  };
+    setDigits(Array(config.digits).fill(""));
+  }
 
-  const solved = lockStatus === "open";
+  function handleRestart() {
+    startGame(config);
+  }
+
+  if (!state) {
+    return <div>Chargement...</div>;
+  }
+
+  const won = state.status === "WON";
+
+  const lost = state.status === "LOST";
 
   return (
     <div
-      className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-6 max-w-3xl p-4 rounded-2xl"
-      style={{
-        fontFamily: "ui-rounded, 'Segoe UI Rounded', system-ui, sans-serif",
-      }}
+      className="
+      grid
+      grid-cols-1
+      lg:grid-cols-[1fr_350px]
+      gap-6
+      max-w-6xl
+      mx-auto
+      p-6
+      "
     >
-      <Clues clues={clues} history={history} />
+      {/* Partie cadenas */}
 
-      <div className="bg-white border-2 border-stone-100 rounded-3xl p-6 flex flex-col items-center gap-4 shadow-sm">
-        <AnimatedLock status={lockStatus} />
+      <section
+        className="
+        rounded-3xl
+        bg-white
+        p-8
+        flex
+        flex-col
+        items-center
+        gap-6
+        shadow
+        "
+      >
+        <div
+          className="
+          text-center
+          "
+        >
+          <h1
+            className="
+            text-3xl
+            font-bold
+            "
+          >
+            🔒 Enigma Lock
+          </h1>
 
-        <div className="flex gap-2">
-          {digits.map((d, i) => (
+          <p
+            className="
+            text-gray-500
+            "
+          >
+            Tentatives : {state.attempts}/{state.maxAttempts}
+          </p>
+        </div>
+
+        <AnimatedLock status={state.status} />
+
+        <div
+          className="
+          flex
+          gap-3
+          "
+        >
+          {digits.map((digit, index) => (
             <input
-              key={i}
-              ref={(el) => { if (el) inputsRef.current[i] = el; }}
-              value={d}
-              onChange={(e) => handleChange(i, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(i, e)}
-              inputMode="numeric"
+              key={index}
+
+              ref={(el) => {
+                inputsRef.current[index] = el;
+              }}
+
+              value={digit}
+
+              onChange={(e) => handleChange(index, e.target.value)}
+
+              onKeyDown={(e) => handleKeyDown(index, e)}
+
+              disabled={won || lost}
+
               maxLength={1}
-              disabled={solved}
-              className="w-10 h-12 text-center text-xl font-bold border-2 border-stone-200 rounded-xl focus:outline-none focus:border-rose-300 disabled:bg-emerald-50 disabled:border-emerald-200"
+
+              inputMode="numeric"
+
+              className="
+                w-14
+                h-16
+                text-center
+                text-3xl
+                font-bold
+                border-2
+                rounded-xl
+                border-zinc-200
+                focus:border-blue-500
+                outline-none
+                "
             />
           ))}
         </div>
 
-        {!solved && (
+        {!won && !lost && (
           <button
-            onClick={handleCheck}
-            className="w-full py-2.5 rounded-xl bg-rose-400 text-white font-semibold text-sm hover:bg-rose-500 active:scale-[0.97] transition"
+            onClick={handleSubmit}
+
+            className="
+            w-full
+            rounded-xl
+            py-3
+            bg-blue-600
+            text-white
+            font-bold
+            hover:bg-blue-700
+            transition
+            "
           >
-            Valider
+            Vérifier
           </button>
         )}
 
-        <div className="flex gap-3 text-xs text-stone-500">
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> bien
-            placé
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> mal placé
-          </span>
-        </div>
+        {(won || lost) && (
+          <button
+            onClick={handleRestart}
 
-        <p
-          className={`text-sm text-center font-medium ${solved ? "text-emerald-600" : "text-stone-500"}`}
-        >
-          {message}
-        </p>
-      </div>
+            className="
+            w-full
+            rounded-xl
+            py-3
+            bg-zinc-900
+            text-white
+            font-bold
+            "
+          >
+            Nouvelle partie
+          </button>
+        )}
+
+        {won && (
+          <p
+            className="
+            text-green-600
+            font-bold
+            "
+          >
+            🔓 Cadenas ouvert !
+          </p>
+        )}
+
+        {lost && (
+          <p
+            className="
+            text-red-600
+            font-bold
+            "
+          >
+            🔒 Cadenas bloqué !
+          </p>
+        )}
+      </section>
+
+      {/* Partie indices */}
+
+      <aside
+        className="
+        rounded-3xl
+        bg-zinc-50
+        p-6
+        "
+      >
+        {" "}
+        <Clues clues={state.clues} />
+      </aside>
     </div>
   );
 }

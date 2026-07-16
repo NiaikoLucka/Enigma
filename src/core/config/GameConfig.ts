@@ -16,9 +16,9 @@ export const GAME_CONFIG: Record<Difficulty, GameConfig> = {
 
     maxAttempts: 15,
 
-    minClues: 3,
+    minClues: 4,
 
-    maxClues: 3,
+    maxClues: 4,
   },
 
   [Difficulty.NORMAL]: {

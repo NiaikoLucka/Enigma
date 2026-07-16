@@ -1,11 +1,9 @@
-import LockdownEnigme from "./components/LockDownEnigme";
+
+import Game from "./page/Game";
 function App() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <h1 className="text-4xl font-bold">
-        Lock Game
-      </h1>
-      <LockdownEnigme/>
+      <Game/>
     </div>
   );
 }

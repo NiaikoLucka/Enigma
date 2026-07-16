@@ -9,7 +9,7 @@ import { PartyPopper } from "lucide-react";
 export default function AnimatedLock({ status = "idle" }) {
   return (
     <div
-      className={`relative w-24 h-28 ${status === "shake" ? "animate-lock-shake" : ""} ${status === "open" ? "animate_lock_open" : ""}`}
+      className={`relative w-24 h-28 ${status === "shake" ? "animate-lock-shake" : ""} ${status === "open" ? "animate-lock-open" : ""}`}
     >
       <style>{`
         @keyframes lock-shake {
@@ -21,14 +21,30 @@ export default function AnimatedLock({ status = "idle" }) {
         }
         .animate-lock-shake { animation: lock-shake 0.5s ease-in-out; }
 
-        @keyframe lock-updown {
-            0%, 100% {transform: translateY(0);}
-            20% {transform: translateY(4px);}
-            40% {transform: translateY(6px);}
-            60% {transform: translateY(5px);}
-            80% {transform: translateY(3px);}
-            }
-        .animate_lock_open { animation : lock-updown 0.5s ease-in-out;}
+        @keyframes lock-open-bounce {
+          0% { transform: translateY(0); }
+          20% { transform: translateY(-10px); }
+          40% { transform: translateY(-20px); }
+          60% { transform: translateY(-10px); }
+          80% { transform: translateY(-5px); }
+          100% { transform: translateY(0); }
+        }
+        .animate-lock-open { animation: lock-open-bounce 0.5s ease-in-out; }
+
+        @keyframes party-pop-in {
+          0% { opacity: 0; transform: translateY(-4px) scale(0.8); }
+          50% { opacity: 1; transform: translateY(-12px) scale(1.05); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes party-pop-bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        .party-popper-appear {
+          opacity: 0;
+          animation: party-pop-in 0.3s ease-out 0.3s forwards,
+                     party-pop-bounce 1.2s ease-in-out 0.3s infinite;
+        }
       `}</style>
 
       <svg viewBox="0 0 100 110" className="w-full h-full overflow-visible">
@@ -44,6 +60,7 @@ export default function AnimatedLock({ status = "idle" }) {
               status === "open"
                 ? "rotate(-38deg) translate(5px,-25px) "
                 : "rotate(0deg)",
+            transitionDelay: status === "open" ? "0.3s" : "0s",
           }}
         />
         <rect
@@ -54,6 +71,7 @@ export default function AnimatedLock({ status = "idle" }) {
           rx="14"
           fill={status === "open" ? "#34d399" : "#fb7185"}
           className="transition-colors duration-500"
+          style={{ transitionDelay: status === "open" ? "0.3s" : "0s" }}
         />
         <circle cx="50" cy="66" r="7" fill="#fff" opacity="0.85" />
         <rect
@@ -70,7 +88,7 @@ export default function AnimatedLock({ status = "idle" }) {
       {status === "open" && (
         <PartyPopper
           size={22}
-          className="absolute -top-2 -right-2 text-amber-400 animate-bounce"
+          className="absolute -top-2 -right-2 text-amber-400 party-popper-appear"
         />
       )}
     </div>
