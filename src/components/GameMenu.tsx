@@ -6,14 +6,9 @@ interface GameMenuProps {
 
 export default function GameMenu({ onStart }: GameMenuProps) {
   return (
-    <div
-      className="
-      min-h-screen flex items-cente justify-center bg-zinc-950 p-6"
-    >
+    <div className="flex items-cente justify-center p-6">
       <div className="w-full max-w-4xl">
-        <h1 className="text-4xl font-bold text-white text-center mb-8">
-          🔒 Enigma Lock
-        </h1>
+        <h1 className="text-4xl font-bold text-center mb-8">🔒 Enigma</h1>
 
         <div
           className="
@@ -30,16 +25,17 @@ export default function GameMenu({ onStart }: GameMenuProps) {
               onClick={() => onStart(config)}
 
               className="
-                  text-left
-                  bg-zinc-900
-                  border
-                  border-zinc-800
-                  rounded-2xl
-                  p-6
-                  text-white
-                  hover:border-blue-500
-                  hover:scale-[1.02]
-                  transition
+                  rounded-3xl
+                  bg-white
+                  p-8
+                  flex
+                  flex-col
+                  items-center
+                  gap-6
+                  shadow
+                  cursor-pointer
+                  hover:-translate-y-1
+                  transition-all
                   "
             >
               <h2
@@ -56,15 +52,15 @@ export default function GameMenu({ onStart }: GameMenuProps) {
                 className="
                     space-y-2
                     text-sm
-                    text-zinc-400
+                    text-zinc-600
                     "
               >
-                <p>🔢 Chiffres : {config.digits}</p>
+                <p> Chiffres : {config.digits}</p>
 
-                <p>❤️ Tentatives : {config.maxAttempts}</p>
+                <p>Tentatives : {config.maxAttempts}</p>
 
                 <p>
-                  🧩 Indices : {config.minClues}-{config.maxClues}
+                   Indices : {config.minClues}
                 </p>
               </div>
             </button>

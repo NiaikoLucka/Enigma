@@ -9,9 +9,13 @@ import { useLockGame } from "../hooks/useLockGame";
 
 interface LockdownEnigmeProps {
   config: GameConfig;
+  onBack: () => void;
 }
 
-export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
+export default function LockdownEnigme({
+  config,
+  onBack,
+}: LockdownEnigmeProps) {
   const { state, startGame, submitGuess, animation, animationKey } =
     useLockGame();
 
@@ -74,8 +78,17 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
   const lost = state.status === "LOST";
 
   return (
-    <div
-      className="
+    <div className="flex-col">
+      <div className="w-full flex justify-start">
+        <button
+          onClick={onBack}
+          className="text-sm text-blue-600 hover:underline transition-all ease-in cursor-pointer"
+        >
+          ← Retour au menu
+        </button>
+      </div>
+      <div
+        className="
       grid
       grid-cols-1
       lg:grid-cols-[1fr_350px]
@@ -84,11 +97,11 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
       mx-auto
       p-6
       "
-    >
-      {/* Partie cadenas */}
+      >
+        {/* Partie cadenas */}
 
-      <section
-        className="
+        <section
+          className="
         rounded-3xl
         bg-white
         p-8
@@ -98,59 +111,60 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
         gap-6
         shadow
         "
-      >
-        <div
-          className="
+        >
+          <div
+            className="
           text-center
           "
-        >
-          <h1
-            className="
+          >
+            <h1
+              className="
             text-3xl
             font-bold
+            mb-3
             "
-          >
-            🔒 Enigma Lock
-          </h1>
+            >
+              🔒 Enigma Lock
+            </h1>
 
-          <p
-            className="
+            <p
+              className="
             text-gray-500
             "
-          >
-            Tentatives : {state.attempts}/{state.maxAttempts}
-          </p>
-        </div>
+            >
+              Tentatives : {state.attempts}/{state.maxAttempts}
+            </p>
+          </div>
 
-        <AnimatedLock animation={animation} key={animationKey} />
+          <AnimatedLock animation={animation} key={animationKey} />
 
-        <div
-          className="
+          <div
+            className="
           flex
           gap-3
           "
-        >
-          {digits.map((digit, index) => (
-            <input
-              key={index}
+          >
+            {digits.map((digit, index) => (
+              <input
+                key={index}
 
-              ref={(el) => {
-                inputsRef.current[index] = el;
-              }}
+                ref={(el) => {
+                  inputsRef.current[index] = el;
+                }}
 
-              value={digit}
+                value={digit}
 
-              onChange={(e) => handleChange(index, e.target.value)}
+                onChange={(e) => handleChange(index, e.target.value)}
 
-              onKeyDown={(e) => handleKeyDown(index, e)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
 
-              disabled={won || lost}
+                disabled={won || lost}
 
-              maxLength={1}
+                maxLength={1}
 
-              inputMode="numeric"
+                inputMode="numeric"
 
-              className="
+                className="
                 w-14
                 h-16
                 text-center
@@ -162,15 +176,15 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
                 focus:border-blue-500
                 outline-none
                 "
-            />
-          ))}
-        </div>
+              />
+            ))}
+          </div>
 
-        {!won && !lost && (
-          <button
-            onClick={handleSubmit}
+          {!won && !lost && (
+            <button
+              onClick={handleSubmit}
 
-            className="
+              className="
             w-full
             rounded-xl
             py-3
@@ -179,34 +193,56 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
             font-bold
             hover:bg-blue-700
             transition
+            cursor-pointer
             "
-          >
-            Vérifier
-          </button>
-        )}
+            >
+              Vérifier
+            </button>
+          )}
 
-        {(won || lost) && (
-          <button
-            onClick={handleRestart}
+          {(won || lost) && (
+            <button
+              onClick={handleRestart}
 
-            className="
+              className="
             w-full
             rounded-xl
             py-3
-            bg-zinc-900
+            bg-zinc-700
             text-white
             font-bold
+            hover:bg-zinc-800
+            transition-all
+            cursor-pointer
             "
-          >
-            Nouvelle partie
-          </button>
-        )}
-      </section>
+            >
+              Nouvelle partie
+            </button>
+          )}
+          <button
+              onClick={handleRestart}
 
-      {/* Partie indices */}
+              className="
+            w-full
+            rounded-xl
+            py-3
+            bg-zinc-700
+            text-white
+            font-bold
+            hover:bg-zinc-800
+            transition-all
+            ease-in-out
+            cursor-pointer
+            "
+            >
+              Nouvelle partie
+            </button>
+        </section>
 
-      <aside
-        className="
+        {/* Partie indices */}
+
+        <aside
+          className="
         rounded-3xl
         bg-white
         p-8
@@ -216,10 +252,11 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
         gap-6
         shadow
         "
-      >
-        {" "}
-        <Clues clues={state.clues} />
-      </aside>
+        >
+          {" "}
+          <Clues clues={state.clues} />
+        </aside>
+      </div>
     </div>
   );
 }

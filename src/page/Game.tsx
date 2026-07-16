@@ -12,5 +12,5 @@ export default function Game() {
     return <GameMenu onStart={setConfig} />;
   }
 
-  return <LockdownEnigme config={config} />;
+  return <LockdownEnigme config={config} onBack={() => setConfig(null)} />;
 }

@@ -14,29 +14,29 @@ export const GAME_CONFIG: Record<Difficulty, GameConfig> = {
   [Difficulty.EASY]: {
     digits: 3,
 
-    maxAttempts: 15,
+    maxAttempts: 8,
 
-    minClues: 4,
+    minClues: 5,
 
-    maxClues: 4,
+    maxClues: 10,
   },
 
   [Difficulty.NORMAL]: {
     digits: 3,
 
-    maxAttempts: 10,
+    maxAttempts: 6,
 
-    minClues: 4,
+    minClues: 5,
 
-    maxClues: 4,
+    maxClues: 10,
   },
 
   [Difficulty.HARD]: {
     digits: 4,
 
-    maxAttempts: 8,
+    maxAttempts: 4,
 
-    minClues: 4,
+    minClues: 5,
 
     maxClues: 4,
   },
@@ -44,9 +44,9 @@ export const GAME_CONFIG: Record<Difficulty, GameConfig> = {
   [Difficulty.EXPERT]: {
     digits: 4,
 
-    maxAttempts: 10,
+    maxAttempts: 2,
 
-    minClues: 8,
+    minClues: 5,
 
     maxClues: 15,
   },
