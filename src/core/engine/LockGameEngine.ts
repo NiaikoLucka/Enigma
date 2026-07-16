@@ -1,9 +1,6 @@
 import { PuzzleGenerator } from "../generators/PuzzleGenerator";
-
 import type { GameConfig } from "../config/GameConfig";
-
 import type { Puzzle } from "../models/types";
-
 import type { LockGameState } from "../models/GameState";
 
 export class LockGameEngine {

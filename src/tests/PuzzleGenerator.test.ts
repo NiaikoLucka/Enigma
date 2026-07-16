@@ -24,4 +24,22 @@ describe("PuzzleGenerator", () => {
 
     expect(validator.validate(puzzle.secret, puzzle.clues)).toBe(true);
   });
+
+  it("respecte la plage d’indices définie dans la configuration", () => {
+    const generator = new PuzzleGenerator();
+
+    const config = {
+      digits: 3,
+
+      maxAttempts: 10,
+
+      minClues: 3,
+
+      maxClues: 3,
+    };
+
+    const puzzle = generator.generate(config);
+
+    expect(puzzle.clues.length).toBe(3);
+  });
 });

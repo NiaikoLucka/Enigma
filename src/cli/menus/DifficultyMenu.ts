@@ -6,6 +6,25 @@ import { Difficulty } from "../../core/config/Difficulty";
 
 type GameConfig = (typeof GAME_CONFIG)[keyof typeof GAME_CONFIG];
 
+function getDifficultyLabel(difficulty: Difficulty): string {
+  switch (difficulty) {
+    case Difficulty.EASY:
+      return "Facile";
+
+    case Difficulty.NORMAL:
+      return "Normal";
+
+    case Difficulty.HARD:
+      return "Difficile";
+
+    case Difficulty.EXPERT:
+      return "Expert";
+
+    default:
+      return difficulty;
+  }
+}
+
 export class DifficultyMenu {
   private rl: readline.Interface;
 
@@ -33,20 +52,35 @@ export class DifficultyMenu {
 
       (choice) => {
         switch (choice) {
-          case "1":
-            callback(GAME_CONFIG[Difficulty.EASY]);
+          case "1": {
+            const difficulty = Difficulty.EASY;
+            console.log(
+              `\n🎯 Difficulté choisie : ${getDifficultyLabel(difficulty)}\n`,
+            );
+            callback(GAME_CONFIG[difficulty]);
 
             break;
+          }
 
-          case "2":
-            callback(GAME_CONFIG[Difficulty.NORMAL]);
+          case "2": {
+            const difficulty = Difficulty.NORMAL;
+            console.log(
+              `\n🎯 Difficulté choisie : ${getDifficultyLabel(difficulty)}\n`,
+            );
+            callback(GAME_CONFIG[difficulty]);
 
             break;
+          }
 
-          case "3":
-            callback(GAME_CONFIG[Difficulty.HARD]);
+          case "3": {
+            const difficulty = Difficulty.HARD;
+            console.log(
+              `\n🎯 Difficulté choisie : ${getDifficultyLabel(difficulty)}\n`,
+            );
+            callback(GAME_CONFIG[difficulty]);
 
             break;
+          }
 
           default:
             console.log("Choix invalide");

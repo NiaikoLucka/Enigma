@@ -26,8 +26,10 @@ export class PuzzleGenerator {
     const manager = new CandidateManager(candidates);
 
     const clues = [];
+    const minClues = Math.max(1, config.minClues);
+    const maxClues = Math.max(minClues, config.maxClues);
 
-    while (manager.count() > 1) {
+    while (clues.length < maxClues) {
       const guess = this.findGuess(manager);
 
       const result = this.evaluator.evaluate(secret, guess);
@@ -39,6 +41,10 @@ export class PuzzleGenerator {
       });
 
       manager.filter(guess, result);
+
+      if (clues.length >= minClues && manager.count() <= 1) {
+        break;
+      }
     }
 
     return {

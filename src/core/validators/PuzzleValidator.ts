@@ -1,13 +1,6 @@
 import { CombinationGenerator } from "../generators/CombinationGenerator";
 import { GuessEvaluator } from "./GuessEvaluator";
-
-interface Clue {
-  guess: string;
-
-  correctPlace: number;
-
-  correctWrongPlace: number;
-}
+import type { Clue } from "../models/types";
 
 export class PuzzleValidator {
   private evaluator = new GuessEvaluator();
