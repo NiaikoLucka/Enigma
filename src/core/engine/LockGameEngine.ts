@@ -2,6 +2,8 @@ import { PuzzleGenerator } from "../generators/PuzzleGenerator";
 import type { GameConfig } from "../config/GameConfig";
 import type { Puzzle } from "../models/types";
 import type { LockGameState } from "../models/GameState";
+import type { GuessResult } from "../models/GuessResult";
+import type { LockAnimation } from "../models/LockAnimation";
 
 export class LockGameEngine {
   private generator = new PuzzleGenerator();
@@ -34,16 +36,28 @@ export class LockGameEngine {
     return this.state.clues;
   }
 
-  checkAnswer(answer: string): boolean {
+  checkAnswer(answer: string): GuessResult {
     if (this.state.status !== "PLAYING") {
-      return false;
+      return {
+        correct: false,
+
+        status: this.state.status,
+
+        attempts: this.state.attempts,
+
+        remainingAttempts: this.getRemainingAttempts(),
+
+        gameOver: this.isFinished(),
+
+        animation: "idle",
+      };
     }
 
     this.state.attempts++;
 
-    const isCorrect = answer === this.puzzle.secret;
+    const correct = answer === this.puzzle.secret;
 
-    if (isCorrect) {
+    if (correct) {
       this.state.status = "WON";
 
       this.state.endTime = Date.now();
@@ -53,7 +67,29 @@ export class LockGameEngine {
       this.state.endTime = Date.now();
     }
 
-    return isCorrect;
+    let animation: LockAnimation;
+
+    if (correct) {
+      animation = "open";
+    } else if (this.state.status === "LOST") {
+      animation = "broken";
+    } else {
+      animation = "shake";
+    }
+
+    return {
+      correct,
+
+      status: this.state.status,
+
+      attempts: this.state.attempts,
+
+      remainingAttempts: this.getRemainingAttempts(),
+
+      gameOver: this.isFinished(),
+
+      animation,
+    };
   }
 
   isFinished(): boolean {
@@ -70,5 +106,13 @@ export class LockGameEngine {
 
   getStatus() {
     return this.state.status;
+  }
+
+  getSecret(): string {
+    return this.puzzle.secret;
+  }
+
+  restart(config: GameConfig): void {
+    this.start(config);
   }
 }

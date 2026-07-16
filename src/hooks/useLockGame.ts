@@ -1,14 +1,17 @@
 import { useRef, useState } from "react";
 
-import { LockGameEngine, type LockGameState } from "@/core";
+import { LockGameEngine, type LockAnimation, type LockGameState } from "@/core";
 
 import type { GameConfig } from "@/core/config/GameConfig";
-
 
 export function useLockGame() {
   const engineRef = useRef<LockGameEngine | null>(null);
 
   const [state, setState] = useState<LockGameState | null>(null);
+
+  const [animation, setAnimation] = useState<LockAnimation>("idle");
+
+  const [animationKey, setAnimationKey] = useState(0);
 
   function startGame(config: GameConfig) {
     const engine = new LockGameEngine();
@@ -31,6 +34,10 @@ export function useLockGame() {
       ...engineRef.current.getState(),
     });
 
+    setAnimation(result.animation);
+
+    setAnimationKey(prev => prev + 1);
+
     return result;
   }
 
@@ -40,5 +47,9 @@ export function useLockGame() {
     startGame,
 
     submitGuess,
+
+    animation,
+
+    animationKey
   };
 }

@@ -12,7 +12,8 @@ interface LockdownEnigmeProps {
 }
 
 export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
-  const { state, startGame, submitGuess } = useLockGame();
+  const { state, startGame, submitGuess, animation, animationKey } =
+    useLockGame();
 
   const [digits, setDigits] = useState<string[]>(() =>
     Array(config.digits).fill(""),
@@ -121,7 +122,7 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
           </p>
         </div>
 
-        <AnimatedLock status={state.status} />
+        <AnimatedLock animation={animation} key={animationKey} />
 
         <div
           className="
@@ -200,28 +201,6 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
             Nouvelle partie
           </button>
         )}
-
-        {won && (
-          <p
-            className="
-            text-green-600
-            font-bold
-            "
-          >
-            🔓 Cadenas ouvert !
-          </p>
-        )}
-
-        {lost && (
-          <p
-            className="
-            text-red-600
-            font-bold
-            "
-          >
-            🔒 Cadenas bloqué !
-          </p>
-        )}
       </section>
 
       {/* Partie indices */}
@@ -229,8 +208,13 @@ export default function LockdownEnigme({ config }: LockdownEnigmeProps) {
       <aside
         className="
         rounded-3xl
-        bg-zinc-50
-        p-6
+        bg-white
+        p-8
+        flex
+        flex-col
+        items-center
+        gap-6
+        shadow
         "
       >
         {" "}

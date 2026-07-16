@@ -1,4 +1,5 @@
 import { PartyPopper } from "lucide-react";
+import type { LockAnimation } from "@/core";
 
 /**
  * Cadenas SVG animé.
@@ -6,10 +7,14 @@ import { PartyPopper } from "lucide-react";
  * - "open"  : l'anse pivote vers le haut, le corps passe au vert, confetti.
  * - "shake" : tout le cadenas tremble brièvement (mauvais code).
  */
-export default function AnimatedLock({ status = "idle" }) {
+export default function AnimatedLock({
+  animation,
+}: {
+  animation: LockAnimation;
+}) {
   return (
     <div
-      className={`relative w-24 h-28 ${status === "shake" ? "animate-lock-shake" : ""} ${status === "open" ? "animate-lock-open" : ""}`}
+      className={`relative w-24 h-28 ${animation === "shake" ? "animate-lock-shake" : ""} ${animation === "open" ? "animate-lock-open" : ""} ${animation === "broken" ? "animate-lock-broken" : ""}`}
     >
       <style>{`
         @keyframes lock-shake {
@@ -45,6 +50,37 @@ export default function AnimatedLock({ status = "idle" }) {
           animation: party-pop-in 0.3s ease-out 0.3s forwards,
                      party-pop-bounce 1.2s ease-in-out 0.3s infinite;
         }
+        @keyframes lock-broken {
+          0% {
+            transform: rotate(0deg);
+          }
+          20% {
+            transform: rotate(-10deg);
+          }
+          40% {
+            transform: rotate(10deg);
+          }
+          60% {
+            transform: rotate(-8deg);
+          }
+
+          80% {
+            transform: rotate(8deg);
+          }
+          100% {
+            transform: rotate(0deg);
+            opacity:.6;
+            filter:grayscale(1);
+          }
+        }
+
+        .animate-lock-broken{
+          animation:
+            lock-broken
+            .8s
+            ease;
+        }       
+        
       `}</style>
 
       <svg viewBox="0 0 100 110" className="w-full h-full overflow-visible">
@@ -57,10 +93,10 @@ export default function AnimatedLock({ status = "idle" }) {
           className="origin-[72px_46px] transition-transform duration-500 ease-out"
           style={{
             transform:
-              status === "open"
+              animation === "open"
                 ? "rotate(-38deg) translate(5px,-25px) "
                 : "rotate(0deg)",
-            transitionDelay: status === "open" ? "0.3s" : "0s",
+            transitionDelay: animation === "open" ? "0.3s" : "0s",
           }}
         />
         <rect
@@ -69,9 +105,15 @@ export default function AnimatedLock({ status = "idle" }) {
           width="64"
           height="54"
           rx="14"
-          fill={status === "open" ? "#34d399" : "#fb7185"}
+          fill={
+            animation === "open"
+              ? "#34d399"
+              : animation === "broken"
+                ? "#6b7280"
+                : "#fb7185"
+          }
           className="transition-colors duration-500"
-          style={{ transitionDelay: status === "open" ? "0.3s" : "0s" }}
+          style={{ transitionDelay: animation === "open" ? "0.3s" : "0s" }}
         />
         <circle cx="50" cy="66" r="7" fill="#fff" opacity="0.85" />
         <rect
@@ -85,7 +127,7 @@ export default function AnimatedLock({ status = "idle" }) {
         />
       </svg>
 
-      {status === "open" && (
+      {animation === "open" && (
         <PartyPopper
           size={22}
           className="absolute -top-2 -right-2 text-amber-400 party-popper-appear"
