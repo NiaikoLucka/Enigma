@@ -108,8 +108,10 @@ export default function LockdownEnigme({
         flex
         flex-col
         items-center
+        justify-center
         gap-6
         shadow
+        w-100
         "
         >
           <div
@@ -117,16 +119,6 @@ export default function LockdownEnigme({
           text-center
           "
           >
-            <h1
-              className="
-            text-3xl
-            font-bold
-            mb-3
-            "
-            >
-              🔒 Enigma Lock
-            </h1>
-
             <p
               className="
             text-gray-500
@@ -220,9 +212,9 @@ export default function LockdownEnigme({
             </button>
           )}
           <button
-              onClick={handleRestart}
+            onClick={handleRestart}
 
-              className="
+            className={`
             w-full
             rounded-xl
             py-3
@@ -232,11 +224,13 @@ export default function LockdownEnigme({
             hover:bg-zinc-800
             transition-all
             ease-in-out
-            cursor-pointer
-            "
-            >
-              Nouvelle partie
-            </button>
+            cursor-pointer 
+            ${won ? "hidden" : "flex"}
+            justify-center
+            `}
+          >
+            Nouvelle partie
+          </button>
         </section>
 
         {/* Partie indices */}
