@@ -59,9 +59,7 @@ export default function GameMenu({ onStart }: GameMenuProps) {
 
                 <p>Tentatives : {config.maxAttempts}</p>
 
-                <p>
-                   Indices : {config.minClues}
-                </p>
+                <p>Indices : {config.minClues}</p>
               </div>
             </button>
           ))}
