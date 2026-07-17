@@ -23,6 +23,10 @@ export function useLockGame() {
     setState({
       ...engine.getState(),
     });
+
+    setAnimation("idle");
+
+    setAnimationKey((prev) => prev + 1);
   }
 
   function submitGuess(answer: string) {
@@ -36,7 +40,7 @@ export function useLockGame() {
 
     setAnimation(result.animation);
 
-    setAnimationKey(prev => prev + 1);
+    setAnimationKey((prev) => prev + 1);
 
     return result;
   }
@@ -50,6 +54,6 @@ export function useLockGame() {
 
     animation,
 
-    animationKey
+    animationKey,
   };
 }

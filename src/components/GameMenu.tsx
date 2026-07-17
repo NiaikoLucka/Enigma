@@ -1,14 +1,37 @@
-import { GAME_CONFIG, Difficulty, type GameConfig } from "@/core";
+import { GAME_CONFIG, Difficulty, type GameSession } from "@/core";
+
+import Card from "./ui/Card";
 
 interface GameMenuProps {
-  onStart: (config: GameConfig) => void;
+  onStart: (session: GameSession) => void;
 }
 
 export default function GameMenu({ onStart }: GameMenuProps) {
   return (
-    <div className="flex items-cente justify-center p-6">
-      <div className="w-full max-w-4xl">
-        <h1 className="text-4xl font-bold text-center mb-8">🔒 Enigma</h1>
+    <div
+      className="
+      flex
+      items-center
+      justify-center
+      p-6
+      "
+    >
+      <div
+        className="
+        w-full
+        max-w-4xl
+        "
+      >
+        <h1
+          className="
+          text-4xl
+          font-bold
+          text-center
+          mb-8
+          "
+        >
+          🔒 Enigma 
+        </h1>
 
         <div
           className="
@@ -18,51 +41,59 @@ export default function GameMenu({ onStart }: GameMenuProps) {
           gap-5
           "
         >
-          {Object.entries(GAME_CONFIG).map(([difficulty, config]) => (
-            <button
-              key={difficulty}
+          {Object.entries(GAME_CONFIG).map(([difficulty, config]) => {
+            const level = difficulty as Difficulty;
 
-              onClick={() => onStart(config)}
+            return (
+              <Card
+                key={difficulty}
 
-              className="
-                  rounded-3xl
-                  bg-white
-                  p-8
-                  flex
-                  flex-col
-                  items-center
-                  gap-6
-                  shadow
-                  cursor-pointer
-                  hover:-translate-y-1
-                  transition-all
+                onClick={() =>
+                  onStart({
+                    difficulty: level,
+
+                    config,
+                  })
+                }
+
+                className="
+                bg-zinc-50
+                p-8
+                flex
+                flex-col
+                items-center
+                gap-6
+                cursor-pointer
+                hover:-translate-y-1
+                hover:shadow-lg
+                transition-all
+                "
+              >
+                <h2
+                  className="
+                  text-xl
+                  font-bold
                   "
-            >
-              <h2
-                className="
-                    text-xl
-                    font-bold
-                    mb-3
-                    "
-              >
-                {getDifficultyLabel(difficulty as Difficulty)}
-              </h2>
+                >
+                  {getDifficultyLabel(level)}
+                </h2>
 
-              <div
-                className="
-                    space-y-2
-                    text-sm
-                    text-zinc-600
-                    "
-              >
-                <p> Chiffres : {config.digits}</p>
+                <div
+                  className="
+                  space-y-2
+                  text-sm
+                  text-zinc-600
+                  "
+                >
+                  <p>Chiffres : {config.digits}</p>
 
-                <p>Tentatives : {config.maxAttempts}</p>
+                  <p>Tentatives : {config.maxAttempts}</p>
 
-                <p>Indices : {config.minClues}</p>
-              </div>
-            </button>
-          ))}
+                  <p>Indices : {config.minClues}</p>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
-import type { GameConfig } from "@/core";
+import type { GameSession } from "@/core";
 
 import AnimatedLock from "./Animatedlock";
 import Clues from "./Clues";
@@ -8,14 +8,15 @@ import Clues from "./Clues";
 import { useLockGame } from "../hooks/useLockGame";
 
 interface LockdownEnigmeProps {
-  config: GameConfig;
+  session: GameSession;
   onBack: () => void;
 }
 
 export default function LockdownEnigme({
-  config,
+  session,
   onBack,
 }: LockdownEnigmeProps) {
+  const { config, difficulty } = session;
   const { state, startGame, submitGuess, animation, animationKey } =
     useLockGame();
 
@@ -119,6 +120,14 @@ export default function LockdownEnigme({
           text-center
           "
           >
+            <p
+              className="text-gray-500 "
+            >
+              Niveau :{" "}
+              <span className="font-bold text-blue-600">
+                {getDifficultyLabel(difficulty)}
+              </span>
+            </p>
             <p
               className="
             text-gray-500
@@ -253,4 +262,22 @@ export default function LockdownEnigme({
       </div>
     </div>
   );
+  function getDifficultyLabel(difficulty: GameSession["difficulty"]) {
+    switch (difficulty) {
+      case "easy":
+        return "Facile 🟢";
+
+      case "normal":
+        return "Normal 🔵";
+
+      case "hard":
+        return "Difficile 🟠";
+
+      case "expert":
+        return "Expert 🔴";
+
+      default:
+        return difficulty;
+    }
+  }
 }

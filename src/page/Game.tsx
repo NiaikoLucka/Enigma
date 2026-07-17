@@ -3,14 +3,28 @@ import { useState } from "react";
 import GameMenu from "@/components/GameMenu";
 import LockdownEnigme from "@/components/LockDownEnigme";
 
-import type { GameConfig } from "@/core";
+import type { GameSession } from "@/core";
 
 export default function Game() {
-  const [config, setConfig] = useState<GameConfig | null>(null);
+  const [session, setSession] = useState<GameSession | null>(null);
 
-  if (!config) {
-    return <GameMenu onStart={setConfig} />;
+  function handleStart(session: GameSession) {
+    setSession(session);
   }
 
-  return <LockdownEnigme config={config} onBack={() => setConfig(null)} />;
+  function handleBack() {
+    setSession(null);
+  }
+
+  if (!session) {
+    return <GameMenu onStart={handleStart} />;
+  }
+
+  return (
+    <LockdownEnigme
+      session={session}
+
+      onBack={handleBack}
+    />
+  );
 }
