@@ -121,7 +121,7 @@ export default function LockdownEnigme({
           "
           >
             <p
-              className="text-gray-500 "
+              className="text-gray-500   "
             >
               Niveau :{" "}
               <span className="font-bold text-blue-600">

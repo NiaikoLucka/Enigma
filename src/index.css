@@ -1,2 +1,110 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./assets/fonts/JetBrains/static/JetBrainsMono-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./assets/fonts/JetBrains/static/JetBrainsMono-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./assets/fonts/JetBrains/static/JetBrainsMono-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./assets/fonts/JetBrains/static/JetBrainsMono-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: #fafaf7; /* bg  → fond général de la page */
+  --foreground: #1b1c20; /* ink → texte principal */
+
+  --muted: #f3f1ea; /* variante plus claire de border, pour zones discrètes */
+  --muted-foreground: #767b84; /* inkDim → texte secondaire, aide, légendes */
+
+  --popover: #ffffff; /* panel → fond des menus/popovers */
+  --popover-foreground: #1b1c20; /* ink */
+
+  --card: #ffffff; /* panel → fond des cartes (cadenas, indices) */
+  --card-foreground: #1b1c20; /* ink */
+
+  --border: #e6e3da; /* border → traits fins, séparateurs */
+  --input: #e6e3da; /* border → contour des champs de saisie */
+
+  --primary: #a9762f; /* brass → bouton principal, accent d'action */
+  --primary-foreground: #ffffff; /* texte sur fond brass */
+
+  --secondary: #f3f1ea; /* fond neutre clair pour boutons secondaires */
+  --secondary-foreground: #1b1c20; /* ink */
+
+  --accent: #f5e4c8; /* brass très clair, pour hover discret */
+  --accent-foreground: #8a5f22; /* brassDeep → texte/icône sur fond accent */
+
+  --destructive: #bd5236; /* rust → erreurs, "mal placé", suppression */
+  --destructive-foreground: #ffffff;
+
+  --success: #2e8873;
+  --success-foreground: #ffffff;
+
+  --ring: #a9762f; /* brass → contour de focus au clavier */
+}
+
+
+@theme inline {
+  --font-sans: "Poppins", "Poppins Fallback";
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --animate-slide-in: slide-in 0.3s ease-out;
+  --animate-slide-out: slide-out 0.3s ease-in;
+}
