@@ -1,6 +1,7 @@
 const LockEmblem = () => {
   return (
-    <svg width="60" height="66" viewBox="0 0 72 80" fill="none">
+    <div className="flex items-center justify-center">
+      <svg width="60" height="66" viewBox="0 0 72 80" fill="none">
       <path
         d="M20 34V22C20 12.6 27.2 5 36 5C44.8 5 52 12.6 52 22V34"
         stroke="#A9762F"
@@ -27,6 +28,7 @@ const LockEmblem = () => {
         fill="#8A5F22"
       />
     </svg>
+    </div>
   );
 };
 

@@ -1,63 +1,51 @@
 // import { Link } from "react-router-dom";
-import { LockKeyhole, Sparkles, Brain } from "lucide-react";
+import {
+  LockKeyhole,
+  Brain,
+  KeyRound,
+  SlidersHorizontal,
+  PlayCircle,
+  BookOpen,
+} from "lucide-react";
+import LockEmblem from "../components/LockEmblem";
+import Feature from "@/components/ui/Feature";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/Button";
+
+const cards = [
+  {
+    icon: KeyRound,
+    title: "Les indices sont la clé",
+    desc: "Chaque détail compte. Utilise les indices pour découvrir la position exacte des chiffres du code.",
+  },
+  {
+    icon: SlidersHorizontal,
+    title: "Des défis adaptés",
+    desc: "Choisis ton niveau et affronte des cadenas de plus en plus difficiles à déchiffrer.",
+  },
+  {
+    icon: Brain,
+    title: "La logique avant tout",
+    desc: "Observe, déduis et construis ta stratégie. La solution se trouve dans les détails.",
+  },
+  {
+    icon: LockKeyhole,
+    title: "Ouvre le cadenas",
+    desc: "Surmonte chaque défi et prouve que tu maîtrises l'art de la déduction.",
+  },
+];
 
 export default function HomePage() {
   return (
-    <main
-      className="
-      min-h-screen flex items-center justify-center px-6"
-    >
-      <div
-        className="
-        max-w-xl
-        text-center
-        space-y-8
-        "
-      >
+    <main className="flex items-center justify-center px-6 w-full h-auto">
+      <div className="flex-col justify-center items-center text-center space-y-8">
         {/* Logo */}
-
-        <div
-          className="
-          relative
-          mx-auto
-          w-32
-          h-32
-          rounded-4xl
-          bg-rose-100
-          flex
-          items-center
-          justify-center
-          "
-        >
-          <LockKeyhole size={70} strokeWidth={1.5} className="text-rose-500" />
-
-          <Sparkles
-            size={25}
-            className="
-            absolute
-            top-3
-            right-3
-            text-amber-400
-            "
-          />
-        </div>
+        <LockEmblem />
 
         {/* Titre */}
 
-        <section
-          className="
-          space-y-4
-          "
-        >
-          <h1
-            className="
-            text-5xl
-            font-black
-            text-stone-800
-            "
-          >
-            Enigma Lock
-          </h1>
+        <section className="space-y-4">
+          <h1 className="text-6xl font-extrabold">ENIGMA</h1>
 
           <p
             className="
@@ -70,121 +58,42 @@ export default function HomePage() {
           </p>
         </section>
 
-        {/* Features */}
-
-        <div
-          className="
-          grid
-          grid-cols-2
-          gap-4
-          "
-        >
-          <Feature
-            icon={<Brain size={22} />}
-            title="Réfléchis"
-            text="Analyse chaque indice"
-          />
-
-          <Feature
-            icon={<LockKeyhole size={22} />}
-            title="Débloque"
-            text="Trouve le code"
-          />
-        </div>
-
         {/* Boutons */}
 
-        <div
-          className="
-          flex
-          flex-col
-          gap-4
-          "
-        >
-          {/* <Link
-            to="/game"
-            className="
-            py-4
-            rounded-2xl
-            bg-rose-500
-            text-white
-            font-bold
-            hover:bg-rose-600
-            transition
-            "
-          >
-            Commencer le jeu
-          </Link> */}
+        <div className="flex gap-4  justify-center items-center">
+          <Link to="/game">
+            <Button className="rounded-lg">
+              <span className="flex items-center justify-center gap-2 px-4 py-2 font-medium ">
+                <PlayCircle size={19} />
+                Commencer le jeu
+              </span>
+            </Button>
+          </Link>
+          <Link to="/tutoriel">
+            <Button className="rounded-lg" variant="outline">
+              <span className="flex items-center justify-center gap-2 px-4 py-2 font-medium ">
+                <BookOpen size={18} />
+                Voir le tutoriel
+              </span>
+            </Button>
+          </Link>
+        </div>
 
-          {/* <Link
-            to="/tutorial"
-            className="
-            py-4
-            rounded-2xl
-            bg-white
-            border
-            border-stone-200
-            font-bold
-            text-stone-700
-            hover:bg-stone-100
-            transition
-            "
-          >
-            Comment jouer ?
-          </Link> */}
+      <div  className="h-px w-full border-t mb-10 border-border" />
+
+        {/* Features */}
+
+        <div className="grid grid-cols-2 gap-4">
+          {cards.map(({ icon: Icon, title, desc }, index) => (
+            <Feature
+              key={index}
+              icon={<Icon size={22} />}
+              title={title}
+              text={desc}
+            />
+          ))}
         </div>
       </div>
     </main>
-  );
-}
-
-function Feature({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div
-      className="
-      bg-white
-      rounded-2xl
-      p-4
-      border
-      border-stone-100
-      "
-    >
-      <div
-        className="
-        flex
-        justify-center
-        mb-2
-        text-rose-500
-        "
-      >
-        {icon}
-      </div>
-
-      <h3
-        className="
-        font-bold
-        text-stone-800
-        "
-      >
-        {title}
-      </h3>
-
-      <p
-        className="
-        text-sm
-        text-stone-500
-        "
-      >
-        {text}
-      </p>
-    </div>
   );
 }

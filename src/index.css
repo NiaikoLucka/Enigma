@@ -17,6 +17,16 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./assets/fonts/JetBrains/static/JetBrainsMono-ExtraBold.ttf")
+    format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: "JetBrains Mono";
   src: url("./assets/fonts/JetBrains/static/JetBrainsMono-Medium.ttf")
@@ -73,7 +83,7 @@
 
 
 @theme inline {
-  --font-sans: "Poppins", "Poppins Fallback";
+  --font-sans: "JetBrains Mono", "JetBrains Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -108,3 +118,7 @@
   --animate-slide-in: slide-in 0.3s ease-out;
   --animate-slide-out: slide-out 0.3s ease-in;
 }
+
+/* @theme {
+  --font-enigma: "JetBrains Mono", monospace;
+} */
