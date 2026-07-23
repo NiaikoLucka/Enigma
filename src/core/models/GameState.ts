@@ -11,6 +11,8 @@ export interface LockGameState {
 
   status: GameStatus;
 
+  secretCode?: string;
+
   startTime: number;
 
   endTime?: number;

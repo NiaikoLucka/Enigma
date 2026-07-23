@@ -15,7 +15,7 @@ const variantStyles: Record<ButtonVariant, string> = {
     "bg-secondary text-secondary-foreground hover:bg-accent focus:ring-ring",
   outline:
     "border border-border text-foreground bg-transparent hover:bg-muted/20 hover:text-accent-foreground hover:border-primary focus:ring-ring",
-  ghost: "bg-transparent text-foreground hover:bg-muted focus:ring-ring",
+  ghost: "bg-transparent text-foreground hover:bg-muted border border-border",
 };
 
 export function Button({

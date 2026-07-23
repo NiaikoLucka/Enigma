@@ -24,6 +24,8 @@ export class LockGameEngine {
 
       status: "PLAYING",
 
+      secretCode: this.puzzle.secret,
+
       startTime: Date.now(),
     };
   }

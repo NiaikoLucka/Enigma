@@ -23,6 +23,8 @@ describe("LockGameEngine", () => {
     expect(state.status).toBe("PLAYING");
 
     expect(state.clues.length).toBeGreaterThan(0);
+
+    expect(state.secretCode).toBeDefined();
   });
 
   it("compte les tentatives", () => {
@@ -40,13 +42,19 @@ describe("LockGameEngine", () => {
 
     game.start(config);
 
-    const secret = (game as any).puzzle.secret;
+    const secret = game.getState().secretCode;
+
+    expect(secret).toBeDefined();
+
+    if (!secret) {
+      throw new Error("Le secret du jeu est introuvable");
+    }
 
     const result = game.checkAnswer(secret);
 
-    expect(result).toBe(true);
+    expect(result.correct).toBe(true);
 
-    expect(game.getStatus()).toBe("WON");
+    expect(result.status).toBe("WON");
   });
 
   it("perd après trop de tentatives", () => {

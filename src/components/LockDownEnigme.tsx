@@ -6,6 +6,10 @@ import AnimatedLock from "./Animatedlock";
 import Clues from "./Clues";
 
 import { useLockGame } from "../hooks/useLockGame";
+import { ArrowLeft, Delete, RotateCcw } from "lucide-react";
+import Card from "./ui/Card";
+import { Button } from "./ui/Button";
+import { cn } from "@/lib/utils";
 
 interface LockdownEnigmeProps {
   session: GameSession;
@@ -70,6 +74,12 @@ export default function LockdownEnigme({
     startGame(config);
   }
 
+  const clearInputs = () => {
+    if (won || lost) return;
+    setDigits(Array(config.digits).fill(""));
+    // focusInput(0);
+  };
+
   if (!state) {
     return <div>Chargement...</div>;
   }
@@ -77,74 +87,49 @@ export default function LockdownEnigme({
   const won = state.status === "WON";
 
   const lost = state.status === "LOST";
+  const isSubmitDisabled = digits.some((digit) => digit === "");
+
+  const remainingAttempts = state.maxAttempts - state.attempts;
+  const secretCode = state.secretCode ?? "";
 
   return (
-    <div className="flex-col">
-      <div className="w-full flex justify-start">
-        <button
-          onClick={onBack}
-          className="text-sm text-blue-600 hover:underline transition-all ease-in cursor-pointer"
-        >
-          ← Retour au menu
-        </button>
-      </div>
-      <div
-        className="
-      grid
-      grid-cols-1
-      lg:grid-cols-[1fr_350px]
-      gap-6
-      max-w-6xl
-      mx-auto
-      p-6
-      "
-      >
-        {/* Partie cadenas */}
-
-        <section
-          className="
-        rounded-3xl
-        bg-white
-        p-8
-        flex
-        flex-col
-        items-center
-        justify-center
-        gap-6
-        shadow
-        w-100
-        "
-        >
-          <div
-            className="
-          text-center
-          "
+    <div className="flex-col flex items-center px-6 py-14">
+      <div className="w-full max-w-4xl ">
+        <div className="flex item-center justify-between">
+          <button
+            onClick={onBack}
+            className="text-sm flex text-muted-foreground items-center gap-2 hover:text-primary transition-all  cursor-pointer"
           >
-            <p
-              className="text-gray-500   "
-            >
-              Niveau :{" "}
-              <span className="font-bold text-blue-600">
-                {getDifficultyLabel(difficulty)}
-              </span>
-            </p>
-            <p
-              className="
-            text-gray-500
-            "
-            >
-              Tentatives : {state.attempts}/{state.maxAttempts}
-            </p>
-          </div>
+            <ArrowLeft size={16} />
+            <span className="text-sm">Retour</span>
+          </button>
+          <div className="flex items-center gap-3">
+            <span className="text-xs uppercase tracking-wide text-primary font-Jetbrains font-semibold px-2.5 py-1.5 border border-border rounded-lg">
+              {getDifficultyLabel(difficulty)}
+            </span>
 
+            <button
+              onClick={handleRestart}
+              className="enigma-btn-ghost transition-colors flex items-center gap-2 bg-none text-muted-foreground rounded-lg px-2.5 py-1.5 border border-border cursor-pointer"
+            >
+              <RotateCcw size={14} />
+              <span className="text-xs font-medium">Nouveau code</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        {/* Partie cadenas */}
+        <Card className="flex flex-col w-full items-center p-8">
           <AnimatedLock animation={animation} key={animationKey} />
 
-          <div
-            className="
-          flex
-          gap-3
-          "
-          >
+          <p className="text-xs tracking-[0.25em] uppercase  text-primary font-Jetbrains">
+            {won && "Cadenas ouvert"}
+            {lost && "Cadenas verrouillé"}
+            {!won && !lost && "Saisis le code"}
+          </p>
+
+          <div className="flex gap-3 mt-6 flex-wrap justify-center">
             {digits.map((digit, index) => (
               <input
                 key={index}
@@ -165,97 +150,65 @@ export default function LockdownEnigme({
 
                 inputMode="numeric"
 
-                className="
-                w-14
-                h-16
-                text-center
-                text-3xl
-                font-bold
-                border-2
-                rounded-xl
-                border-zinc-200
-                focus:border-blue-500
-                outline-none
-                "
+                className="w-12 h-14 text-center text-2xl font-semibold border border-border rounded-xl bg-background text-foreground outline-none focus:border-primary"
               />
             ))}
           </div>
 
+          {/* Button */}
           {!won && !lost && (
-            <button
-              onClick={handleSubmit}
-
-              className="
-            w-full
-            rounded-xl
-            py-3
-            bg-blue-600
-            text-white
-            font-bold
-            hover:bg-blue-700
-            transition
-            cursor-pointer
-            "
-            >
-              Vérifier
-            </button>
+            <div className="flex gap-3 mt-6">
+              <Button
+                onClick={clearInputs}
+                variant="ghost"
+                className="gap-2 text-muted-foreground rounded-lg focus:ring-0"
+              >
+                <Delete size={14} />
+                Effacer
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                disabled={isSubmitDisabled}
+                className={cn(
+                  "px-8 disabled:cursor-not-allowed",
+                  isSubmitDisabled && "opacity-45",
+                )}
+              >
+                Vérifier
+              </Button>
+            </div>
           )}
 
           {(won || lost) && (
-            <button
-              onClick={handleRestart}
-
-              className="
-            w-full
-            rounded-xl
-            py-3
-            bg-zinc-700
-            text-white
-            font-bold
-            hover:bg-zinc-800
-            transition-all
-            cursor-pointer
-            "
-            >
-              Nouvelle partie
-            </button>
+            <div className="flex mt-6">
+              <button
+                onClick={handleRestart}
+                className="enigma-btn-ghost transition-colors flex items-center gap-2 bg-none text-muted-foreground rounded-lg px-4 py-2 border border-border cursor-pointer"
+              >
+                <RotateCcw size={14} />
+                <span className="text-xs font-medium">Nouveau code</span>
+              </button>
+            </div>
           )}
-          <button
-            onClick={handleRestart}
 
-            className={`
-            w-full
-            rounded-xl
-            py-3
-            bg-zinc-700
-            text-white
-            font-bold
-            hover:bg-zinc-800
-            transition-all
-            ease-in-out
-            cursor-pointer 
-            ${won ? "hidden" : "flex"}
-            justify-center
-            `}
-          >
-            Nouvelle partie
-          </button>
-        </section>
+          <p className=" text-sm text-muted-foreground font-light mt-6">
+            {!won &&
+              !lost &&
+              `${remainingAttempts} tentative${remainingAttempts > 1 ? "s" : ""} restante${remainingAttempts > 1 ? "s" : ""}`}
+            {lost && (
+              <>
+                Le code était {"  "}
+                <span className="font-Jetbrains font-semibold">
+                  {secretCode}
+                </span>
+              </>
+            )}
+          </p>
+        </Card>
 
         {/* Partie indices */}
 
-        <aside
-          className="
-        rounded-3xl
-        bg-white
-        p-8
-        flex
-        flex-col
-        items-center
-        gap-6
-        shadow
-        "
-        >
+        <aside>
           {" "}
           <Clues clues={state.clues} />
         </aside>
@@ -265,16 +218,16 @@ export default function LockdownEnigme({
   function getDifficultyLabel(difficulty: GameSession["difficulty"]) {
     switch (difficulty) {
       case "easy":
-        return "Facile 🟢";
+        return "Facile";
 
       case "normal":
-        return "Normal 🔵";
+        return "Normal";
 
       case "hard":
-        return "Difficile 🟠";
+        return "Difficile";
 
       case "expert":
-        return "Expert 🔴";
+        return "Expert";
 
       default:
         return difficulty;
