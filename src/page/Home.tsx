@@ -37,8 +37,8 @@ const cards = [
 
 export default function HomePage() {
   return (
-    <main className="flex items-center justify-center px-6 w-full h-auto">
-      <div className="flex-col justify-center items-center text-center space-y-8">
+    <main className="flex items-center justify-center px-6 py-16 w-full h-auto">
+      <div className="flex-col justify-center items-center text-center space-y-8 mt-6">
         {/* Logo */}
         <LockEmblem />
 
