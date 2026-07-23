@@ -11,9 +11,9 @@ const Feature = ({ icon, title, text }: featureProps) => {
     <Card className="bg-card  p-4 ">
       <div className="flex justify-center mb-2 text-primary">{icon}</div>
 
-      <h3 className="font-bold text-base">{title}</h3>
+      <h3 className="font-bold  font-Oswald text-base">{title}</h3>
 
-      <p className="text-sm text-muted-foreground">{text}</p>
+      <p className="text-sm text-muted-foreground leading-relaxed font-light">{text}</p>
     </Card>
   );
 };

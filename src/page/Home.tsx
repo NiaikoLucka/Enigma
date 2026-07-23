@@ -45,7 +45,7 @@ export default function HomePage() {
         {/* Titre */}
 
         <section className="space-y-4">
-          <h1 className="text-6xl font-extrabold">ENIGMA</h1>
+          <h1 className="text-6xl  font-Oswald font-bold">ENIGMA</h1>
 
           <p
             className="
@@ -79,19 +79,21 @@ export default function HomePage() {
           </Link>
         </div>
 
-      <div  className="h-px w-full border-t mb-10 border-border" />
+        <div className="w-full max-w-5xl mt-10">
+          <div className="h-px w-full border-t mb-10 border-border" />
 
-        {/* Features */}
+          {/* Features */}
 
-        <div className="grid grid-cols-2 gap-4">
-          {cards.map(({ icon: Icon, title, desc }, index) => (
-            <Feature
-              key={index}
-              icon={<Icon size={22} />}
-              title={title}
-              text={desc}
-            />
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+            {cards.map(({ icon: Icon, title, desc }, index) => (
+              <Feature
+                key={index}
+                icon={<Icon size={22} />}
+                title={title}
+                text={desc}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </main>

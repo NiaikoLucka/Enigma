@@ -1,5 +1,6 @@
 import HomePage from "@/page/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Game from "@/page/Game";
 // import Game from "@/page/Game";
 function App() {
   const router = createBrowserRouter([
@@ -7,6 +8,10 @@ function App() {
       path: "/",
       element: <HomePage />,
     },
+    {
+      path: "/game",
+      element : <Game/>
+    }
   ]);
 
   return (

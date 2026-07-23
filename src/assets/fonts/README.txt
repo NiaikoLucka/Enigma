@@ -1,34 +1,23 @@
-JetBrains Mono Variable Font
-============================
+Oswald Variable Font
+====================
 
-This download contains JetBrains Mono as both variable fonts and static fonts.
+This download contains Oswald as both a variable font and static fonts.
 
-JetBrains Mono is a variable font with this axis:
+Oswald is a variable font with this axis:
   wght
 
-This means all the styles are contained in these files:
-  JetBrainsMono-VariableFont_wght.ttf
-  JetBrainsMono-Italic-VariableFont_wght.ttf
+This means all the styles are contained in a single file:
+  Oswald-VariableFont_wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
-in those cases you can use the static font files for JetBrains Mono:
-  static/JetBrainsMono-Thin.ttf
-  static/JetBrainsMono-ExtraLight.ttf
-  static/JetBrainsMono-Light.ttf
-  static/JetBrainsMono-Regular.ttf
-  static/JetBrainsMono-Medium.ttf
-  static/JetBrainsMono-SemiBold.ttf
-  static/JetBrainsMono-Bold.ttf
-  static/JetBrainsMono-ExtraBold.ttf
-  static/JetBrainsMono-ThinItalic.ttf
-  static/JetBrainsMono-ExtraLightItalic.ttf
-  static/JetBrainsMono-LightItalic.ttf
-  static/JetBrainsMono-Italic.ttf
-  static/JetBrainsMono-MediumItalic.ttf
-  static/JetBrainsMono-SemiBoldItalic.ttf
-  static/JetBrainsMono-BoldItalic.ttf
-  static/JetBrainsMono-ExtraBoldItalic.ttf
+in those cases you can use the static font files for Oswald:
+  static/Oswald-ExtraLight.ttf
+  static/Oswald-Light.ttf
+  static/Oswald-Regular.ttf
+  static/Oswald-Medium.ttf
+  static/Oswald-SemiBold.ttf
+  static/Oswald-Bold.ttf
 
 Get started
 -----------
